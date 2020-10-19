@@ -2,6 +2,7 @@ const path = require('path')
 const CoypWebpackPlugins = require('copy-webpack-plugin')
 const EntryExtractPlugin = require('./entry-extract-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 const ABSOLUTE_PATH = process.cwd()
 
@@ -15,6 +16,7 @@ module.exports = {
     output: {
         filename: '[name].js',
         path: path.resolve(ABSOLUTE_PATH, 'dist'),
+        chunkLoadTimeout: 3000,
     },
     module: {
         rules: [
@@ -78,7 +80,12 @@ module.exports = {
                     }
                 ]
 
-            })
+            }),
+        new CleanWebpackPlugin({
+            dry: true,
+            verbose: true,
+        }),
+        
     ],
     optimization: {
         minimize: true,
